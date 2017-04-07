@@ -1,0 +1,419 @@
+<!--</body>-->
+<!--</html>-->
+<!DOCTYPE html>
+<html>
+<title>Minds Matter NYC</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+  body,
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: "Raleway", sans-serif
+  }
+</style>
+
+<body class="w3-light-grey w3-content" style="max-width:1600px">
+  <script type="text/javascript">
+    // <![CDATA[
+    var colour = "#000000";
+    var sparkles = 120;
+
+    /****************************
+     *  Tinkerbell Magic Sparkle *
+     * (c) 2005 mf2fm web-design *
+     *  http://www.mf2fm.com/rv  *
+     * DON'T EDIT BELOW THIS BOX *
+     ****************************/
+    var x = ox = 400;
+    var y = oy = 300;
+    var swide = 800;
+    var shigh = 600;
+    var sleft = sdown = 0;
+    var tiny = new Array();
+    var star = new Array();
+    var starv = new Array();
+    var starx = new Array();
+    var stary = new Array();
+    var tinyx = new Array();
+    var tinyy = new Array();
+    var tinyv = new Array();
+
+    window.onload = function() {
+      if (document.getElementById) {
+        var i, rats, rlef, rdow;
+        for (var i = 0; i < sparkles; i++) {
+          var rats = createDiv(3, 3);
+          rats.style.visibility = "hidden";
+          document.body.appendChild(tiny[i] = rats);
+          starv[i] = 0;
+          tinyv[i] = 0;
+          var rats = createDiv(5, 5);
+          rats.style.backgroundColor = "transparent";
+          rats.style.visibility = "hidden";
+          var rlef = createDiv(1, 5);
+          var rdow = createDiv(5, 1);
+          rats.appendChild(rlef);
+          rats.appendChild(rdow);
+          rlef.style.top = "2px";
+          rlef.style.left = "0px";
+          rdow.style.top = "0px";
+          rdow.style.left = "2px";
+          document.body.appendChild(star[i] = rats);
+        }
+        set_width();
+        sparkle();
+      }
+    }
+
+    function sparkle() {
+      var c;
+      if (x != ox || y != oy) {
+        ox = x;
+        oy = y;
+        for (c = 0; c < sparkles; c++)
+          if (!starv[c]) {
+            star[c].style.left = (starx[c] = x) + "px";
+            star[c].style.top = (stary[c] = y) + "px";
+            star[c].style.clip = "rect(0px, 5px, 5px, 0px)";
+            star[c].style.visibility = "visible";
+            starv[c] = 50;
+            break;
+          }
+      }
+      for (c = 0; c < sparkles; c++) {
+        if (starv[c]) update_star(c);
+        if (tinyv[c]) update_tiny(c);
+      }
+      setTimeout("sparkle()", 40);
+    }
+
+    function update_star(i) {
+      if (--starv[i] == 25) star[i].style.clip = "rect(1px, 4px, 4px, 1px)";
+      if (starv[i]) {
+        stary[i] += 1 + Math.random() * 3;
+        if (stary[i] < shigh + sdown) {
+          star[i].style.top = stary[i] + "px";
+          starx[i] += (i % 5 - 2) / 5;
+          star[i].style.left = starx[i] + "px";
+        }
+        else {
+          star[i].style.visibility = "hidden";
+          starv[i] = 0;
+          return;
+        }
+      } 
+      else {
+        tinyv[i] = 50;
+        tiny[i].style.top = (tinyy[i] = stary[i]) + "px";
+        tiny[i].style.left = (tinyx[i] = starx[i]) + "px";
+        tiny[i].style.width = "2px";
+        tiny[i].style.height = "2px";
+        star[i].style.visibility = "hidden";
+        tiny[i].style.visibility = "visible"
+      }
+    }
+
+    function update_tiny(i) {
+      if (--tinyv[i] == 25) {
+        tiny[i].style.width = "1px";
+        tiny[i].style.height = "1px";
+      }
+      if (tinyv[i]) {
+        tinyy[i] += 1 + Math.random() * 3;
+        if (tinyy[i] < shigh + sdown) {
+          tiny[i].style.top = tinyy[i] + "px";
+          tinyx[i] += (i % 5 - 2) / 5;
+          tiny[i].style.left = tinyx[i] + "px";
+        }
+        else {
+          tiny[i].style.visibility = "hidden";
+          tinyv[i] = 0;
+          return;
+        }
+      }
+      else tiny[i].style.visibility = "hidden";
+    }
+
+    document.onmousemove = mouse;
+
+    function mouse(e) {
+      set_scroll();
+      y = (e) ? e.pageY : event.y + sdown;
+      x = (e) ? e.pageX : event.x + sleft;
+    }
+
+    function set_scroll() {
+      if (typeof(self.pageYOffset) == "number") {
+        sdown = self.pageYOffset;
+        sleft = self.pageXOffset;
+      }
+      else if (document.body.scrollTop || document.body.scrollLeft) {
+        sdown = document.body.scrollTop;
+        sleft = document.body.scrollLeft;
+      }
+      else if (document.documentElement && (document.documentElement.scrollTop || document.documentElement.scrollLeft)) {
+        sleft = document.documentElement.scrollLeft;
+        sdown = document.documentElement.scrollTop;
+      }
+      else {
+        sdown = 0;
+        sleft = 0;
+      }
+    }
+
+    window.onresize = set_width;
+
+    function set_width() {
+      if (typeof(self.innerWidth) == "number") {
+        swide = self.innerWidth;
+        shigh = self.innerHeight;
+      }
+      else if (document.documentElement && document.documentElement.clientWidth) {
+        swide = document.documentElement.clientWidth;
+        shigh = document.documentElement.clientHeight;
+      }
+      else if (document.body.clientWidth) {
+        swide = document.body.clientWidth;
+        shigh = document.body.clientHeight;
+      }
+    }
+
+    function createDiv(height, width) {
+      var div = document.createElement("div");
+      div.style.position = "absolute";
+      div.style.height = height + "px";
+      div.style.width = width + "px";
+      div.style.overflow = "hidden";
+      div.style.backgroundColor = colour;
+      return (div);
+    }
+    // ]]>
+  </script>
+
+  <!-- Sidebar/menu -->
+  <nav class="w3-sidebar w3-collapse w3-white w3-animate-left" style="z-index:3;width:300px;" id="mySidebar"><br>
+    <div class="w3-container">
+      <a href="#" onclick="w3_close()" class="w3-hide-large w3-right w3-jumbo w3-padding w3-hover-grey" title="close menu">
+        <i class="fa fa-remove"></i>
+      </a>
+      <img src="pictures/Picture.JPG" style="width:100%;" class="w3-round"><br><br>
+      <h4><b>SHARON WONG</b></h4>
+      <h6>Class of 2017</h6>
+    </div>
+    <div class="w3-bar-block">
+      <a href="#portfolio" onclick="w3_close()" class="w3-bar-item w3-button w3-padding w3-text-teal"><i class="fa fa-th-large fa-fw w3-margin-right"></i>HOME</a>
+      <a href="#about" onclick="w3_close()" class="w3-bar-item w3-button w3-padding"><i class="fa fa-user fa-fw w3-margin-right"></i>ABOUT</a>
+      <a href="#contact" onclick="w3_close()" class="w3-bar-item w3-button w3-padding"><i class="fa fa-envelope fa-fw w3-margin-right"></i>VISIT</a>
+    </div>
+  </nav>
+
+  <!-- Overlay effect when opening sidebar on small screens -->
+  <div class="w3-overlay w3-hide-large w3-animate-opacity" onclick="w3_close()" style="cursor:pointer" title="close side menu" id="myOverlay"></div>
+
+  <!-- !PAGE CONTENT! -->
+  <div class="w3-main" style="margin-left:300px">
+
+    <!-- Header -->
+    <header id="portfolio">
+      <a href="#"><img src="/w3images/avatar_g2.jpg" style="width:65px;" class="w3-circle w3-right w3-margin w3-hide-large w3-hover-opacity"></a>
+      <span class="w3-button w3-hide-large w3-xxlarge w3-hover-text-grey" onclick="w3_open()"><i class="fa fa-bars"></i></span>
+      <div class="w3-container ">
+        <br><br><br>
+        <span class="w3-center"><img src="pictures/mindsmatterlogo.PNG" width="200" height= "50">
+  
+    <div class="w3-section w3-bottombar w3-padding-16">
+    </div>
+    </div>
+  </header>
+  <div class="w3-row-padding">
+   <img src="pictures/mindsmatterALDA.jpg" alt="Me" style="width:100%"></div>
+   <br>
+  <!-- First Photo Grid-->
+  <div class="w3-row-padding">
+    <div class="w3-third w3-container w3-margin-bottom">
+      <img src="pictures/pic1.JPG" alt="CPE2015" style="width:100%" class="w3-hover-opacity">
+      <div class="w3-container w3-white">
+      </div>
+    </div>
+    <div class="w3-third w3-container w3-margin-bottom">
+           <img src="pictures/pic5.JPG" alt="Norway" style="width:100%" class="w3-hover-opacity">
+      <div class="w3-container w3-white">
+        
+      </div>
+    </div>
+    <div class="w3-third w3-container">
+      <img src="pictures/pic4.JPG" alt="MBA2017" style="width:100%" class="w3-hover-opacity">
+      <div class="w3-container w3-white">
+      </div>
+    </div>
+  </div>
+
+  <div class="w3-row-padding">
+        <div class="w3-third w3-container w3-margin-bottom"> <img src="pictures/pic2.jpg" alt="CPE2015" style="width:100%" class="w3-hover-opacity">
+      <div class="w3-container w3-white">
+      </div>
+    </div>
+  <!-- Second Photo Grid-->
+    <div class="w3-third w3-container w3-margin-bottom">
+       <img src="pictures/pic3.jpg" alt="PACE2016" style="width:100%" class="w3-hover-opacity">
+      <div class="w3-container w3-white">
+      </div>
+    </div>
+    <div class="w3-third w3-container">
+      <img src="pictures/pic6.JPG" alt="MBA2017" style="width:100%" class="w3-hover-opacity">
+      <div class="w3-container w3-white">
+      </div>
+    </div>
+    
+  </div>
+
+  
+  <div class="w3-container w3-padding-large" style="margin-bottom:32px"  id="about">
+     <a href="#about"></a>
+    <h4><b>About Me</b></h4>
+    <p>
+      I used to think that I was different. 
+      <br> 
+      Only to realize that that was not true. 
+      <br> 
+      Just like everyone else, I am a human being. Nothing less. Nothing more. 
+      <br><br>
+      I used to think I was special. 
+      <br> 
+      I'm not though. 
+      <br> 
+      Because people tell me, "if everyone is special, then no one is."
+      <br><br>
+      I used to think I was unusual.
+      <br>
+      People told me I was.
+      <br>
+      Normal is boring though, am I right?
+      <br><br>
+      I used to think I was dumb. 
+      <br> 
+      Test scores and grades were low. Is there something wrong with me?
+      <br>
+      "Everybody is a genius. But if you judge a fish by its ability to climb a tree, it will live its whole life believing that it is stupid." Thanks, Albert Einstein. 
+      <br><br>
+      I used to think I was incapable.
+      <br> 
+      I can be everything else but just not that. 
+      <br> 
+      How do I know if I am? How do I know if I am not? 
+      <br>
+      <br>
+      I used to think. <br> A lot.
+      <br>
+      <p>(This short poems brings me back to when I started high school. I was a very insecure person. Sometimes, I would overthink. Like a lot. But, fast forward. A year later when I joined with Minds Matter, I met my team leader, my mentors, and my peers for the first time and ever since, I felt like I belonged somewhere.) </p>
+      <hr>
+    <h4><b>How Minds Matter Changed Me</b></h4>
+    <iframe width="700" height="500"
+src="https://www.youtube.com/embed/EVVafQgxYXI">
+      
+</iframe>
+
+<p>
+    I made this video to show how I changed throughout the years. Specifically to show how big of an impact Minds Matter has on me. A year ago, my mentors brought me and my family to watch a broadway show. Matilda - The Musical. That was the day I discovered how much I loved watching broadway shows. <br>
+    P.S. I included many photos and videos of me that I never showed anyone else. 
+    </p>
+    
+    <h4><b>Confidence Level</b></h4>
+    <!-- Progress bars / Skills -->
+    <p>9th Grade</p>
+    <div class="w3-grey">
+      <div class="w3-container w3-dark-grey w3-padding w3-center" style="width:20%">20%</div>
+    </div>
+     <p>10th Grade</p>
+    <div class="w3-grey">
+      <div class="w3-container w3-dark-grey w3-padding w3-center" style="width:40%">40%</div>
+    </div>
+    <p>11th Grade</p>
+    <div class="w3-grey">
+      <div class="w3-container w3-dark-grey w3-padding w3-center" style="width:80%">80%</div>
+    </div>
+    <p>12th Grade</p>
+    <div class="w3-grey">
+      <div class="w3-container w3-dark-grey w3-padding w3-center" style="width:100%">100%</div>
+    </div>
+    <br>
+     <p>After years and years of being the <i>quiet</i> kid, I finally built the confidence to break out of my shell. I have always been the shy one; I never participated in class, never talked unless someone spoke first, and never had the motivation to take on opportunities. But, ever since I enrolled in Minds Matter, I was pretty much forced to talk to EVERYONE. Since then, I felt myself getting better at communicating with others. In fact, I overcame my fear of public speaking after doing many, many seminars, presentations and wearing a COSTUME in front of everyone. It is honestly something I did not think I could have done without the help of Minds Matter. Specifically, my mentors, because they invested so much time and effort to help me build my confidence and I really appreciate them for doing so.</p>
+    <br>
+    <div class="container">
+     <div class="w3-col m6 l6">
+      <img src="pictures/capstoneday.jpg" alt="Me" width="100%">
+    </div> 
+    <div class="w3-col m6 l6">
+      <img src="pictures/capstoneday2.jpg" alt="Me" width="100%">
+    </div>
+  </div>
+
+    <hr>
+
+  
+  <!-- Contact Section -->
+  <div class="w3-container w3-padding-large">
+    <h4 id="contact"><b>Additional Links</b></h4>
+   <p><a href="https://www.zeemee.com/sharonwong" title="ZEEMEE" target="_blank" class="w3-hover-text-green">ZEEMEE</a> - A page consisting of all the opportunities/programs/extracurricular activities I have been a part of. <br>
+   <a href="https://sites.google.com/a/hstat.org/sharonw4769sep/home" title="10TH GRADE" target="_blank" class="w3-hover-text-green">SEP 10</a> - All the projects I have done in my Software Engineering class from 2014-2015<br><a href="https://sites.google.com/a/hstat.org/sharonw4769sep11/home" title="11TH GRADE" target="_blank" class="w3-hover-text-green">SEP 11</a>- All the projects I have done in my Software Engineering class from 2015-2016<br><a href="https://sites.google.com/a/hstat.org/sharonw4769sep12/home" title="12TH GRADE" target="_blank" class="w3-hover-text-green">SEP 12</a>- All the projects I have done in my Software Engineering class from 2016-2017</p>
+
+<br>
+  <div class="w3-row-padding">
+   <img src="pictures/AFSCostaRica2.JPG" alt="Me" style="width:100%"></div>
+   <p>I would like to take a moment and thank everyone that has guided me through this journey. Without you, I would probably still be struggling and would have never been exposed to so many different things. You are very amazing and I can NEVER thank you enough for the resources, opportunities, and skills you gave me. Although my time in Minds Matter is coming to an end soon, I really hope that you never forget me. <br>
+      Each and every one of you has impacted my life and changed me. In a positive way, of course. So, 60 years from now, when I get the chance to tell my grandchildren about my life, my story... I promise, you will have very important role because you all are very <b>important</b> to me.
+     </p>
+<br><br>
+    <div class=" w3-center" style="margin:0 -20px">
+      <div class="w3-third w3-dark-grey">
+        <p><i class="fa fa-graduation-cap w3-xxlarge w3-text-light-grey"></i></p>
+        <h6>SCHOOL</h6>
+        <p>Telecommunications</p>
+      </div>
+      <div class="w3-third w3-teal">
+        <p><i class="fa fa-map-marker w3-xxlarge w3-text-light-grey"></i></p>
+        <h6>MINDS MATTER CHAPTER</h6>
+        <p>New York, US</p>
+      </div>
+      <div class="w3-third w3-dark-grey">
+        <p><i class="fa fa-envelope w3-xxlarge w3-text-light-grey"></i></p>
+        <h6>CONTACT ME</h6>
+        <p>sharonswongg@gmail.com </p>
+      </div>
+<br><br><br>
+<!-- Footer -->
+<footer class="w3-center">
+  <a href="#portfolio" class="w3-button w3-light-grey"><i class="fa fa-arrow-up w3-margin-right"></i>To the top</a>
+  <p>Powered by <a href="https://www.w3schools.com/w3css/default.asp" title="W3.CSS" target="_blank" class="w3-hover-text-green">w3.css</a></p>
+</footer>
+<div id="credits">
+  <p>Customized by <a href="https://github.com/sharonw4769" title="Github" target="_blank" class="w3-hover-text-green">Sharon Wong</a></p>
+<img src="pictures/sharon.png" class="w3-circle" alt="Sharon Wong">
+</div>
+
+<!-- End page content -->
+</div>
+
+<script>
+// Script to open and close sidebar
+function w3_open() {
+    document.getElementById("mySidebar").style.display = "block";
+    document.getElementById("myOverlay").style.display = "block";
+}
+ 
+function w3_close() {
+    document.getElementById("mySidebar").style.display = "none";
+    document.getElementById("myOverlay").style.display = "none";
+}
+</script>
+
+</body>
+</html>
